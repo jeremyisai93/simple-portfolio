@@ -4,7 +4,7 @@ import datetime
 
 
 class TestPortfolioMethods(unittest.TestCase):
-    class DummyStocks:
+    class DummyStock:
         def __init__(self, dummyPrice):
             self.dummyPrice = dummyPrice
 
@@ -14,7 +14,7 @@ class TestPortfolioMethods(unittest.TestCase):
             else:
                 return self.dummyPrice + 0.05
 
-    class DummyStocks2:
+    class DummyStock2:
         def price(self, date):
             if date.month == 1:
                 return 1
@@ -30,7 +30,7 @@ class TestPortfolioMethods(unittest.TestCase):
                 return 1.4623
 
     def testGetProfit(self):
-        dummyStocks = [self.DummyStocks(0.1)]
+        dummyStocks = [self.DummyStock(0.1)]
         dummyPortfolio = Portfolio(dummyStocks)
         self.assertEqual(
             dummyPortfolio.profit(
@@ -40,7 +40,7 @@ class TestPortfolioMethods(unittest.TestCase):
         )
 
     def testGetProfitError(self):
-        dummyStocks = [self.DummyStocks(0.1)]
+        dummyStocks = [self.DummyStock(0.1)]
         dummyPortfolio = Portfolio(dummyStocks)
         with self.assertRaises(Exception) as context:
             dummyPortfolio.profit(
@@ -50,7 +50,7 @@ class TestPortfolioMethods(unittest.TestCase):
         self.assertTrue("Invalid Dates" in str(context.exception))
 
     def testAnnualizedReturn(self):
-        dummyStocks = [self.DummyStocks2()]
+        dummyStocks = [self.DummyStock2()]
         dummyPortfolio = Portfolio(dummyStocks)
         self.assertEqual(
             dummyPortfolio.annualizedReturn(2015, 2019),
@@ -58,7 +58,7 @@ class TestPortfolioMethods(unittest.TestCase):
         )
 
     def testAnnualizedError(self):
-        dummyStocks = [self.DummyStocks(0.1)]
+        dummyStocks = [self.DummyStock(0.1)]
         dummyPortfolio = Portfolio(dummyStocks)
         with self.assertRaises(Exception) as context:
             dummyPortfolio.annualizedReturn(2018, 2017)
@@ -66,7 +66,7 @@ class TestPortfolioMethods(unittest.TestCase):
         self.assertTrue("Invalid Dates" in str(context.exception))
 
     def testAnnualizedLimitYear(self):
-        dummyStocks = [self.DummyStocks(0.1)]
+        dummyStocks = [self.DummyStock(0.1)]
         dummyPortfolio = Portfolio(dummyStocks)
         with self.assertRaises(Exception) as context:
             dummyPortfolio.annualizedReturn(2018, datetime.datetime.now().year)
